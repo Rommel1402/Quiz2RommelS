@@ -147,9 +147,9 @@ export class PersonajesFavoritosComponent implements OnInit {
 
   }
 
-  private getDataFromService(): void {
+  private async getDataFromService(): Promise<void> {
 
-    this.CharacterService.searchCharacters(this.query, this.pageNum).pipe(take(1))
+    (await this.CharacterService.searchCharacters(this.query, this.pageNum)).pipe(take(1))
       .subscribe((res: any) => {
         if (res?.results?.length) {
           console.log('Response==>', res);

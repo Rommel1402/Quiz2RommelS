@@ -50,36 +50,10 @@ export class ListaPersonajesComponent implements OnInit {
       if (user) {
         this.user = user;
 
-        // for (let index = 0; index < this.characters.length; index++) {
-        //   const element = this.characters[index];
-        //   if (await characterService.existe2(this.characters[index], user) == true) {
-        //     this.characters[index].isLiked = true;
-        //   } else {
-        //     this.characters[index].isLiked = false;
-        //   }
 
-        // }
+        await this.onUrlChanged();
 
-        this.onUrlChanged();
-
-
-
-        // if (await characterService.existe2(this.product, user) == true) {
-        //   character.isLiked = true;
-        // } else {
-        //   character.isLiked = false;
-        // }
-
-
-        // DEBO ENCONTRAR UNA MANERA PARA QUE DEL HTML DE ESTE COMPONENTE PUEDA OBJETER EL PERSONAJE Y PASARLO POR PARAMETRO AQUI ABAJO
-        // if (await characterService.existe2(this.character, user) == true) {
-        //   this.isLiked = true;
-        // } else {
-        //   this.isLiked = false;
-        // }
-
-        
-        
+              
 
         for (let index = 0; index < this.characters.length; index++) {
           const element = this.characters[index];
@@ -122,13 +96,13 @@ export class ListaPersonajesComponent implements OnInit {
     })
   }
 
-  private onUrlChanged(): void {
-    this.router.events.pipe(
+  private async onUrlChanged(): Promise<void> {
+    await this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd)).subscribe(
-        () => {
+        async () => {
           this.characters = [];
           this.pageNum = 1;
-          this.getCharactersByQuery();
+          await this.getCharactersByQuery();
         }
       )
 
@@ -166,25 +140,26 @@ export class ListaPersonajesComponent implements OnInit {
     this.document.documentElement.scrollTop = 0;
   }
 
-  private getCharactersByQuery(): void {
-    this.route.queryParams.pipe(
-      take(1)).subscribe((params: ParamMap) => {
+  private async getCharactersByQuery(): Promise<void> {
+    await this.route.queryParams.pipe(
+      take(1)).subscribe(async (params: ParamMap) => {
         console.log('Params', params);
         this.query = params['q'];
-        this.getDataFromService();
+        await this.getDataFromService();
       });
 
   }
 
-  private getDataFromService(): void {
+  private async getDataFromService(): Promise<void> {
 
-    this.characterService.searchCharacters(this.query, this.pageNum).pipe(take(1))
+    await (await this.characterService.searchCharacters(this.query, this.pageNum)).pipe(take(1))
       .subscribe((res: any) => {
         if (res?.results?.length) {
           console.log('Response==>', res);
           const { info, results } = res;
           this.characters = [... this.characters, ...results]
           this.info = info;
+
         } else {
           this.characters = [];
         }
