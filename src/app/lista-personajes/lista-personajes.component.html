@@ -16,14 +16,20 @@
                     <a [routerLink]="['/character-details', character.id]" routerLinkActive="router-link-active">
                         <h2>{{character.name | slice:0:15}}</h2>
                     </a>
-                    <!-- <div class="row" id="text">
+                    <div class="row" id="text">
                         <div>
-                            <mat-icon (click)="like(character)" *ngIf="!character.isLiked" aria-hidden="false">
-                                star_outline</mat-icon>
-                            <mat-icon (click)="like(character)" *ngIf="character.isLiked" aria-hidden="false">star
-                            </mat-icon>
+                            <button *ngIf="!character.isLiked" (click)="like(character)"> 
+                                   <span class="material-icons">
+                                    star_outline
+                                </span>
+                            </button>
+                            <button *ngIf="character.isLiked" (click)="like(character)">
+                                <span class="material-icons">
+                                    star
+                                </span>
+                            </button>
                         </div>
-                    </div> -->
+                    </div>
                     <h4 class="text-muted">{{character.gender}}</h4>
                     <small class="text-muted">{{character.created | date}}</small>
 
@@ -32,7 +38,7 @@
         </div>
     </div>
 
-    <!-- <div *ngIf="characters.length<=0" class="col-xs-12 col-sm-12 col-md-12 mt-5 container-notFound">
+    <div *ngIf="characters.length<=0" class="col-xs-12 col-sm-12 col-md-12 mt-5 container-notFound">
         <p>No results.......</p>
-    </div> -->
+    </div>
 </div>

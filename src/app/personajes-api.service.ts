@@ -16,6 +16,7 @@ export class PersonajesAPIService {
 
   searchCharacters(query = '', page = 1) {
     const filter = `${environment.baseUrlAPI}/?name=${query}&page=${page}`;
+    // console.log('aquiii===>',filter)
     return this.http.get<Personaje[]>(filter);
 
   }
