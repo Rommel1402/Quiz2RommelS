@@ -20,4 +20,5 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['/character-list'], { queryParams: { q: value } });
     }
 }
+
 }
