@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
     }else{
       this.islogged=false;
     }
-
+    
   })
                }
 

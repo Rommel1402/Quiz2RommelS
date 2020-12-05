@@ -46,54 +46,29 @@ export class ListaPersonajesComponent implements OnInit {
 
     // this.onUrlChanged();
 
-    this.user$.subscribe(async user => {
+    this.user$.subscribe(async (user) => {
       if (user) {
         this.user = user;
 
-        // for (let index = 0; index < this.characters.length; index++) {
-        //   const element = this.characters[index];
-        //   if (await characterService.existe2(this.characters[index], user) == true) {
-        //     this.characters[index].isLiked = true;
-        //   } else {
-        //     this.characters[index].isLiked = false;
-        //   }
-
-        // }
 
         this.onUrlChanged();
 
 
 
-        // if (await characterService.existe2(this.product, user) == true) {
-        //   character.isLiked = true;
-        // } else {
-        //   character.isLiked = false;
-        // }
+        for (let index = 0; index < this.characters.length; index++) {
+          // console.log('hola');
+          const element = this.characters[index];
+          // console.log(element);
+          if ( await characterService.existe2(this.characters[index], user) == true) {
+            this.characters[index].isLiked = true;
+            // this.isLiked = true;
+          } else {
+            this.characters[index].isLiked = false;
+            // this.isLiked = false;
+          }
 
+        }
 
-        // DEBO ENCONTRAR UNA MANERA PARA QUE DEL HTML DE ESTE COMPONENTE PUEDA OBJETER EL PERSONAJE Y PASARLO POR PARAMETRO AQUI ABAJO
-        // if (await characterService.existe2(this.character, user) == true) {
-        //   this.isLiked = true;
-        // } else {
-        //   this.isLiked = false;
-        // }
-
-        
-        
-
-        // for (let index = 0; index < this.characters.length; index++) {
-        //   const element = this.characters[index];
-        //   // console.log(element);
-        //   if (await characterService.existe2(this.characters[index], user) == true) {
-        //     this.characters[index].isLiked=true;
-        //   // this.isLiked = true;
-        // } else {
-        //     this.characters[index].isLiked = false;
-        //   // this.isLiked = false;
-        // }
-
-        // }
-        
 
       }
 
@@ -117,7 +92,7 @@ export class ListaPersonajesComponent implements OnInit {
           }
           this.role = role;
         })
-
+        
       }
     })
   }
@@ -189,7 +164,7 @@ export class ListaPersonajesComponent implements OnInit {
           this.characters = [];
         }
       });
-
+      
 
   }
 
@@ -222,7 +197,7 @@ export class ListaPersonajesComponent implements OnInit {
   }
   
 
-  filterby(option:string){
+  async filterby(option:string){
     console.log(option)
     if (option == 'Female' || option === 'Male' || option === 'Genderless' || option ==='unknown'){
       this.characters = this.characters.filter(p => p.gender === option);
@@ -230,6 +205,19 @@ export class ListaPersonajesComponent implements OnInit {
       this.characters = this.characters.filter(p => p.status === option);
     }else{
       this.characters = this.characters.filter(p => p.species === option);
+    }
+    for (let index = 0; index < this.characters.length; index++) {
+      // console.log('hola');
+      const element = this.characters[index];
+      // console.log(element);
+      if (await this.characterService.existe2(this.characters[index], this.user) == true) {
+        this.characters[index].isLiked = true;
+        // this.isLiked = true;
+      } else {
+        this.characters[index].isLiked = false;
+        // this.isLiked = false;
+      }
+
     }
      
     

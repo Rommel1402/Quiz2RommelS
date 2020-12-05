@@ -89,11 +89,11 @@ export class PersonajesAPIService {
     let ref = firebase.database().ref("/users/" + user.uid + "/favoritos/" + "/characters/" + character.id);
 
     if (await this.isProductAddedtoWL(ref) == true) {
-      console.log('ENTRA');
+      // console.log('ENTRA');
       return true;
     }
     else {
-      console.log('NO ENTRA')
+      // console.log('NO ENTRA');
       return false;
     }
 
