@@ -1,1 +1,49 @@
 <p>personajes-favoritos works!</p>
+
+
+<div class="container">
+    <div infinite-scroll (scrolled)="onScrollDown()" class="row">
+        <div *ngFor="let character of all_products" class="col-xs-12 col-sm-6 col-md-4">
+
+            <div class="card">
+
+
+                <div class="image">
+                    <a [routerLink]="['/character-details', character.character.id]">
+                        <img [src]="character.character.image" [alt]="character.character.image" class="card-img-top">
+                    </a>
+                </div>
+                <div class="card-inner">
+                    <div class="header">
+                        <a [routerLink]="['/character-details', character.character.id]"
+                            routerLinkActive="router-link-active">
+                            <h2>{{character.character.name | slice:0:15}}</h2>
+                        </a>
+                        <div class="row" id="text">
+                            <div>
+                                <button *ngIf="!character.character.isLiked" (click)="like(character.character)">
+                                    <span class="material-icons">
+                                        star_outline
+                                    </span>
+                                 </button>
+                                <button *ngIf="character.character.isLiked" (click)="like(character.character)">
+                                    <span class="material-icons">
+                                        star
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <h4 class="text-muted">{{character.character.gender}}</h4>
+                        <small class="text-muted">{{character.character.created | date}}</small>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="all_products.length<=0" class="col-xs-12 col-sm-12 col-md-12 mt-5 container-notFound">
+            <p>No tienes personajes agregados en favoritos</p>
+
+        </div>
+    </div>
+</div>

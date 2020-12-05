@@ -8,12 +8,18 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" routerLink="/" routerLinkActive="router-link-active">Home <span
+                    <a class="nav-link" routerLink="/characters-list" routerLinkActive="router-link-active">Home <span
                             class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" routerLink="/favoritos" routerLinkActive="router-link-active">Favoritos <span
                             class="sr-only">(current)</span></a>
+                </li>
+                <li *ngIf="!islogged">
+                    <button (click)='login()'>Login</button>
+                </li>
+                <li *ngIf="islogged">
+                    <button (click)='logout()'>LogOut</button>
                 </li>
             </ul>
             <div class="col-xs-12 col-sm-12 col-md-6">

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PersonajesAPIService } from '../personajes-api.service';
 import { NavigationEnd, ParamMap } from '@angular/router';
@@ -10,6 +10,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from "firebase/app";
 import { AngularFireDatabase } from '@angular/fire/database';
 import { HostListener } from '@angular/core';
+
 
 @Component({
   selector: 'app-lista-personajes',
@@ -34,6 +35,7 @@ export class ListaPersonajesComponent implements OnInit {
   logged = false;
   role;
   available: boolean = false;
+  
   constructor(private characterService: PersonajesAPIService,
     private route: ActivatedRoute,
     private router: Router,
@@ -69,18 +71,32 @@ export class ListaPersonajesComponent implements OnInit {
         // }
 
 
-        //DEBO ENCONTRAR UNA MANERA PARA QUE DEL HTML DE ESTE COMPONENTE PUEDA OBJETER EL PERSONAJE Y PASARLO POR PARAMETRO AQUI ABAJO
-        // if (await characterService.existe2(this.product, user) == true) {
-        //   character.isLiked = true;
+        // DEBO ENCONTRAR UNA MANERA PARA QUE DEL HTML DE ESTE COMPONENTE PUEDA OBJETER EL PERSONAJE Y PASARLO POR PARAMETRO AQUI ABAJO
+        // if (await characterService.existe2(this.character, user) == true) {
+        //   this.isLiked = true;
         // } else {
-        //   character.isLiked = false;
+        //   this.isLiked = false;
         // }
+
+        for (let index = 0; index < this.characters.length; index++) {
+          const element = this.characters[index];
+          // console.log(element);
+          if (await characterService.existe2(this.characters[index], user) == true) {
+            this.characters[index].isLiked=true;
+          // this.isLiked = true;
+        } else {
+            this.characters[index].isLiked = false;
+          // this.isLiked = false;
+        }
+
+        }
 
       }
 
     })
   }
 
+  
 
   async ngOnInit() {
     // this.getDataFromService();
@@ -129,6 +145,7 @@ export class ListaPersonajesComponent implements OnInit {
 
     }
 
+    
   }
 
 
@@ -172,26 +189,26 @@ export class ListaPersonajesComponent implements OnInit {
 
   }
 
-  // addToWL(product) {
-  //   this.characterService.addToWL(product, this.user);
-  // }
+  addToWL(product) {
+    this.characterService.addToWL(product, this.user);
+  }
 
-  // deleteToWL(product) {
-  //   this.characterService.deleteTWL(product, this.user);
-  // }
+  deleteToWL(product) {
+    this.characterService.deleteTWL(product, this.user);
+  }
 
-  // like(character) {
-  //   character.isLiked = !character.isLiked;
-  //   console.log(character.isLiked);
-  //   // this.isLiked = !this.isLiked;
+  like(character) {
+    character.isLiked = !character.isLiked;
+    console.log(character.isLiked);
+    // this.isLiked = !this.isLiked;
 
-  //   if (character.isLiked) {
-  //     this.addToWL(character);
+    if (character.isLiked) {
+      this.addToWL(character);
 
-  //   } else {
-  //     this.deleteToWL(character);
-  //   }
-  // }
+    } else {
+      this.deleteToWL(character);
+    }
+  }
   getRole(userId) {
     return this.db.object("/users/" + userId + "/role");
   }
@@ -199,14 +216,8 @@ export class ListaPersonajesComponent implements OnInit {
   createRole(userId) {
     return this.db.object("/users/" + userId).update({ role: "user" })
   }
-  login() {
-    let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl") || "/";
-    localStorage.setItem("returnUrl", returnUrl);
+  
 
-    this.afAuth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-  }
 
-  logout() {
-    this.afAuth.signOut();
-  }
+
 }
