@@ -78,18 +78,22 @@ export class ListaPersonajesComponent implements OnInit {
         //   this.isLiked = false;
         // }
 
-        for (let index = 0; index < this.characters.length; index++) {
-          const element = this.characters[index];
-          // console.log(element);
-          if (await characterService.existe2(this.characters[index], user) == true) {
-            this.characters[index].isLiked=true;
-          // this.isLiked = true;
-        } else {
-            this.characters[index].isLiked = false;
-          // this.isLiked = false;
-        }
+        
+        
 
-        }
+        // for (let index = 0; index < this.characters.length; index++) {
+        //   const element = this.characters[index];
+        //   // console.log(element);
+        //   if (await characterService.existe2(this.characters[index], user) == true) {
+        //     this.characters[index].isLiked=true;
+        //   // this.isLiked = true;
+        // } else {
+        //     this.characters[index].isLiked = false;
+        //   // this.isLiked = false;
+        // }
+
+        // }
+        
 
       }
 
@@ -218,6 +222,23 @@ export class ListaPersonajesComponent implements OnInit {
   }
   
 
+  filterby(option:string){
+    console.log(option)
+    if (option == 'Female' || option === 'Male' || option === 'Genderless' || option ==='unknown'){
+      this.characters = this.characters.filter(p => p.gender === option);
+    } else if (option === 'Alive' || option === 'Dead' || option==='unknown'){
+      this.characters = this.characters.filter(p => p.status === option);
+    }else{
+      this.characters = this.characters.filter(p => p.species === option);
+    }
+     
+    // this.characters = this.characters.filter(p => p.gender === 'Male');
+    // this.characters = this.characters.filter(p => p.gender === 'Male');
+    // this.characters = this.characters.filter(p => p.gender === 'Male');
+    // this.characters = this.characters.filter(p => p.gender === 'Male');
+    // this.characters = this.characters.filter(p => p.gender === 'Male');
+    // this.characters = this.characters.filter(p => p.gender === 'Male');
 
+  }
 
 }

@@ -1,3 +1,70 @@
+<!-- <app-category-container></app-category-container> -->
+
+<div class="category-container">
+    <div class="icons-container">
+        <ul class="icons">
+            <li>
+                <a routerLink="/characters-list" >
+                    <div class="iconletter">Estado</div>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/characters-list" >
+                    <div class="iconletter">Especie</div>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/characters-list">
+
+                    <div class="iconletter">Genero</div>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <a routerLink='/characters-list'>
+        <div class="texto">
+            <p>Ver todas las categorías</p>
+        </div>
+    </a>
+</div>
+
+<div class="sticky-top">
+    <div class="list-group">
+        
+        <a routerLink="/characters-list/"  class="list-group-item list-group-item-action">
+            Genero
+        </a>
+        <a routerLink="/characters-list/" (click)="filterby('Male')" class="list-group-item list-group-item-action">
+            Hombre
+        </a>
+        <a routerLink="/characters-list/" (click)="filterby('Female')" class="list-group-item list-group-item-action">
+            Mujer
+        </a>
+        <a routerLink="/characters-list/" (click)='filterby("unknown")' class="list-group-item list-group-item-action">
+           Genero Desconocido
+        </a>
+        <a routerLink="/characters-list/" class="list-group-item list-group-item-action">
+            Estado
+        </a>
+        <a routerLink="/characters-list/" (click)="filterby('Alive')" class="list-group-item list-group-item-action">
+            Vivo
+        </a>
+        <a routerLink="/characters-list/" (click)='filterby("Dead")' class="list-group-item list-group-item-action">
+            Muerto
+        </a>
+        <a routerLink="/characters-list/" (click)='filterby("unknown")' class="list-group-item list-group-item-action">
+            Desaparecido
+        </a>
+
+        <a routerLink="/characters-list/" class="list-group-item list-group-item-action">
+            Especie
+            <input #especie type="text" value="especie">
+            <button (click)="filterby(especie.value)">Buscar especie</button>
+        </a>
+    </div>
+</div>
+
 
 <div infinite-scroll (scrolled)="onScrollDown()" class="row">
     <div *ngFor="let character of characters; let i=index" class="col-xs-12 col-sm-6 col-md-4">
