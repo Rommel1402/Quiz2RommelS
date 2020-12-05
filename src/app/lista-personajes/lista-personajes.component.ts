@@ -81,18 +81,18 @@ export class ListaPersonajesComponent implements OnInit {
         
         
 
-        for (let index = 0; index < this.characters.length; index++) {
-          const element = this.characters[index];
-          // console.log(element);
-          if (await characterService.existe2(this.characters[index], user) == true) {
-            this.characters[index].isLiked=true;
-          // this.isLiked = true;
-        } else {
-            this.characters[index].isLiked = false;
-          // this.isLiked = false;
-        }
+        // for (let index = 0; index < this.characters.length; index++) {
+        //   const element = this.characters[index];
+        //   // console.log(element);
+        //   if (await characterService.existe2(this.characters[index], user) == true) {
+        //     this.characters[index].isLiked=true;
+        //   // this.isLiked = true;
+        // } else {
+        //     this.characters[index].isLiked = false;
+        //   // this.isLiked = false;
+        // }
 
-        }
+        // }
         
 
       }
