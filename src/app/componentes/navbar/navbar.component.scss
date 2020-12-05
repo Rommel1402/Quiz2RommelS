@@ -1,0 +1,57 @@
+
+.box{
+    // border: 2px black solid;
+    height: 60px;
+    width: 850px;
+    margin-top: 30px;
+    display: inline-block;
+    position: absolute;
+    
+}
+
+ul{
+    list-style: none;
+    // background-color: yellow;
+    
+        display: flex;
+    li{
+        margin-left: 40px;
+        
+            
+                a{
+                font-style: normal;
+                font-size: 20px;
+                text-decoration: none;
+                color:black
+                
+                }
+            }
+        
+}
+
+
+.titulo{
+    // background-color: red;
+    display: inline-flex;
+    width: 300px;
+    
+    position: absolute;
+    margin-left: -20px;
+    
+    font-family: 'Mukta', sans-serif;
+
+}
+
+.categorias{
+    display: inline-flex;
+    // float: inline-end;
+    position: absolute;
+    margin-left: 310px;
+    margin-top: 15px;
+    
+    font-family: 'Mukta', sans-serif;
+    // src: url('https://fonts.googleapis.com/css2?family=Mukta:wght@200&display=swap');
+    
+    
+}
+
