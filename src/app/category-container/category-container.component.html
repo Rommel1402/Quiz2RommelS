@@ -32,26 +32,26 @@
 
         
         
-        <a routerLink="/" (click)="filterby('Male')" class="list-group-item list-group-item-action">
+        <a  (click)="filterby('Male')" class="list-group-item list-group-item-action">
             Hombre
         </a>
-        <a routerLink="/" (click)="filterby('Female')" class="list-group-item list-group-item-action">
+        <a  (click)="filterby('Female')" class="list-group-item list-group-item-action">
             Mujer
         </a>
-        <a routerLink="/" (click)='filterby("unknown")' class="list-group-item list-group-item-action">
+        <a (click)='filterby("unknown")' class="list-group-item list-group-item-action">
             Genero Desconocido
         </a>
-        <a routerLink="/" (click)="filterby('Alive')" class="list-group-item list-group-item-action">
+        <a  (click)="filterby('Alive')" class="list-group-item list-group-item-action">
             Vivo
         </a>
-        <a routerLink="/" (click)='filterby("Dead")' class="list-group-item list-group-item-action">
+        <a  (click)='filterby("Dead")' class="list-group-item list-group-item-action">
             Muerto
         </a>
-        <a routerLink="/" (click)='filterby("unknown")' class="list-group-item list-group-item-action">
+        <a  (click)='filterby("unknown")' class="list-group-item list-group-item-action">
             Desaparecido
         </a>
 
-        <a routerLink="/" class="list-group-item list-group-item-action">
+        <a  class="list-group-item list-group-item-action">
             Especie
             <input #especie type="text" value="especie">
             <button (click)="filterby(especie.value)">Buscar especie</button>

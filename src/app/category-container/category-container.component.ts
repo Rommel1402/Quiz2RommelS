@@ -262,6 +262,7 @@ export class CategoryContainerComponent implements OnInit {
 
 
   async filterby(option:string){
+    this.pageNum++;
     this.isFilter=true;
     this.option=option;
     console.log(option);

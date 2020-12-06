@@ -34,16 +34,18 @@ export class PersonajesFavoritosComponent implements OnInit {
   private showScrollHeight = 500;
 
 
-  
+
   constructor(
     private route: ActivatedRoute,
-    private CharacterService: PersonajesAPIService,
+    private fvS: FavoritosService,
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
     private router: RouterModule,
-    private fvS:FavoritosService,
+    private characterService: PersonajesAPIService,
 
     @Inject(DOCUMENT) private document: Document) {
+    // window.location.reload();
+      this.characters=[];
     this.user$.subscribe(user => {
       this.user = user;
       let ref = firebase.database().ref("/users/" + user.uid + "/favoritos/");
@@ -151,7 +153,7 @@ export class PersonajesFavoritosComponent implements OnInit {
 
   private async getDataFromService(): Promise<void> {
 
-    (await this.CharacterService.searchCharacters(this.query, this.pageNum)).pipe(take(1))
+    (await this.characterService.searchCharacters(this.query, this.pageNum)).pipe(take(1))
       .subscribe((res: any) => {
         if (res?.results?.length) {
           console.log('Response==>', res);
