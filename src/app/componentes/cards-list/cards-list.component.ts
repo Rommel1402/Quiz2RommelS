@@ -89,7 +89,11 @@ export class CardsListComponent implements OnInit {
   async ngOnInit() {
 
     // this.getDataFromService();
-    this.getCharactersByQuery();
+    if (window.location.href != 'http://localhost:4200/favorite-list') {
+
+      this.getCharactersByQuery();
+    }
+
 
     this.user$.subscribe(user => {
       this.user = user;

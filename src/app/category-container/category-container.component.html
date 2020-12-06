@@ -29,9 +29,6 @@
 
 <div class="sticky-top">
     <div class="list-group">
-
-
-        
         
         <a  (click)="filterby('Male')" class="list-group-item list-group-item-action">
             Hombre
@@ -56,11 +53,11 @@
 
             Especie
             <input #especie type="text" value="especie">
-            <button (click)="filterby(especie.value)">Buscar especie</button>
+            <button class="btn btn-primary" (click)="filterby(especie.value)">Buscar especie</button>
         </a>
 
         <a routerLink="/" class="list-group-item list-group-item-action">
-            <button >VER TODAS LAS CATEGORIAS</button> 
+            <button class="btn btn-primary" >VER TODAS LAS CATEGORIAS</button> 
         </a>
     </div>
 </div>
@@ -69,4 +66,5 @@
 
 
 <app-cards-list *ngIf="isFilter" [option]='option' [characters]="characters"></app-cards-list>
-<app-cards-list *ngIf="!isFilter" [characters]="characters"></app-cards-list>
+<app-cards-list *ngIf="!isFilter && favorites==false" [characters]="characters"></app-cards-list>
+<app-cards-list *ngIf="!isFilter &&favorites==true" [characters]="characters"></app-cards-list>

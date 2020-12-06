@@ -13,7 +13,7 @@ const routes: Routes = [
     path: '', component: ListaPersonajesComponent 
   },
   {
-    path: 'characters-list', component: CardsListComponent
+    path: 'characters-list', component: ListaPersonajesComponent
   },
   {
     path: ':pageNum', component: ListaPersonajesComponent

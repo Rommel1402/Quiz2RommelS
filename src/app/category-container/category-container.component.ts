@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy,  Inject,  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,9 +26,9 @@ export class CategoryContainerComponent implements OnInit {
   
   
 
-
+  
     showGoUpButton = false;
-  characters: Personaje[] = [];
+  characters= [];
   info = {
     next: null,
   };
@@ -40,13 +40,14 @@ export class CategoryContainerComponent implements OnInit {
   user;
   // user$: Observable<firebase.User>;
   user$ = this.afAuth.authState;
-
+favorites:boolean;
   logged = false;
   role;
   available: boolean = false;
   islogged: boolean;
   isFilter:boolean=false;
   option: string;
+  booleano2: boolean;
 
 
   constructor(private characterService: PersonajesAPIService,
@@ -59,15 +60,40 @@ export class CategoryContainerComponent implements OnInit {
     private http: HttpClient) {
 
 
-    this.onUrlChanged();
+    // this.onUrlChanged();
 
     this.user$.subscribe(async (user) => {
       if (user) {
         this.user = user;
         this.islogged = true;
+        if (window.location.href!='http://localhost:4200/favorite-list'){
+          await this.onUrlChanged();
+          this.favorites=false;
+        }else{
+          this.favorites=true;
+          this.user$.subscribe(user => {
+            this.user = user;
+            let ref = firebase.database().ref("/users/" + user.uid + "/favoritos/");
+            ref.once("value").then(res => {
+              this.booleano2 = res.exists();
+              
 
-        // await this.onUrlChanged();
+              this.fvS.getWishListUser(user).snapshotChanges().pipe(
+                map(changes => changes.map(c => {
+                  this.characters.push(c.payload.val()['character']);
+                  // console.log(c.payload.val()['character']['id']);
+                }))
+              ).subscribe(c => {
+                // this.characters = c
+                // console.log(c);
+                
+              });
 
+
+            })
+          })
+        }
+        
 
         for (let index = 0; index < this.characters.length; index++) {
           // console.log('hola');
@@ -94,8 +120,12 @@ export class CategoryContainerComponent implements OnInit {
 
   async ngOnInit() {
 
-    // this.getDataFromService();
-    this.getCharactersByQuery();
+    console.log(window.location.href);
+    if (window.location.href != 'http://localhost:4200/favorite-list') {
+
+      this.getCharactersByQuery();
+    }
+
 
     this.user$.subscribe(user => {
       this.user = user;
