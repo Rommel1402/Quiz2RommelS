@@ -21,12 +21,12 @@
                         </a>
                         <div class="row" id="text">
                             <div>
-                                <button *ngIf="!character.character.isLiked" (click)="like(character.character)">
+                                <button class="btn btn-secundary" *ngIf="!character.character.isLiked" (click)="like(character.character)">
                                     <span class="material-icons">
                                         star_outline
                                     </span>
                                  </button>
-                                <button *ngIf="character.character.isLiked" (click)="like(character.character)">
+                                <button class="btn btn-secundary" *ngIf="character.character.isLiked" (click)="like(character.character)">
                                     <span class="material-icons">
                                         star
                                     </span>

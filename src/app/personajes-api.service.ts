@@ -20,6 +20,21 @@ export class PersonajesAPIService {
     });
   }
 
+  async getNLikes(character: Personaje, user: firebase.User){
+    let item$ = this.db.list("/characters/"+character.id);
+
+    let wLKey = item$.push({
+      //  POR AHORA BORRAR
+    }).key
+    console.log(character.key);
+    this.db.object("/characters/" + character.id)
+      .set({
+        character
+      })
+
+
+  }
+
   getWishListUser(user: firebase.User) {
 
     // let item$ = this.db.list("/users/" + user.uid + "/wish-list/");
@@ -78,6 +93,8 @@ export class PersonajesAPIService {
     let item$ = this.db.list("/users/" + user.uid + "/favoritos/");
 
 
+    // character.nLikes -= 1;
+    // this.db.object("/characters/" + character.id).update(character);
 
     this.db.object("/users/" + user.uid + "/favoritos/" + "/characters/" + character.id).remove();
 
@@ -89,11 +106,11 @@ export class PersonajesAPIService {
     let ref = firebase.database().ref("/users/" + user.uid + "/favoritos/" + "/characters/" + character.id);
 
     if (await this.isProductAddedtoWL(ref) == true) {
-      console.log('ENTRA');
+      // console.log('ENTRA');
       return true;
     }
     else {
-      console.log('NO ENTRA')
+      // console.log('NO ENTRA');
       return false;
     }
 
@@ -139,13 +156,42 @@ export class PersonajesAPIService {
       .set({
         character
       })
-
+      
+      
+    //   character.nLikes+=1;
+    // this.db.list("/characters").push(character)
 
 
   }
 
+  private async isCharacterCreated(ref: firebase.database.Reference) {
+    let flag;
+    await ref.once("value").then(res => {
+      flag = res.exists();
+    })
+    return flag;
+  }
+  private async isBagCreated(ref: firebase.database.Reference) {
+    let flag;
+    await ref.once("value").then(res => {
+      flag = res.exists();
+    })
+    return flag;
+  }
 
   create(character) {
+    let ref = firebase.database().ref("characters/");
+    // let key = firebase.database().ref("characters/").key;
+
+    if (this.isProductAddedtoWL(ref)){
+      if(character.nLikes>0){
+        character.nLikes+=1;
+
+      }else{
+        character.nLikes=0;
+      }
+    }
+    // console.log('hola');
     return this.db.list("/characters").push(character);
   }
 

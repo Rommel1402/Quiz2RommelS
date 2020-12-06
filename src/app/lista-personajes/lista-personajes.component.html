@@ -65,46 +65,47 @@
     </div>
 </div>
 
+<div class="container">
+    <div infinite-scroll (scrolled)="onScrollDown()" class="row">
+        <div *ngFor="let character of characters; let i=index" class="col-xs-12 col-sm-6 col-md-4">
 
-<div infinite-scroll (scrolled)="onScrollDown()" class="row">
-    <div *ngFor="let character of characters; let i=index" class="col-xs-12 col-sm-6 col-md-4">
-
-        <div class="card">
+            <div class="card">
 
 
-            <div class="image">
-                <a [routerLink]="['/character-details', character.id]">
-                    <img [src]="character.image" [alt]="character.image" class="card-img-top">
-                </a>
-            </div>
-            <div class="card-inner">
-                <div class="header">
-                    <a [routerLink]="['/character-details', character.id]" routerLinkActive="router-link-active">
-                        <h2>{{character.name | slice:0:15}}</h2>
+                <div class="image">
+                    <a [routerLink]="['/character-details', character.id]">
+                        <img [src]="character.image" [alt]="character.image" class="card-img-top">
                     </a>
-                    <div class="row" id="text">
-                        <div>
-                            <button *ngIf="!characters[i].isLiked" (click)="like(characters[i])"> 
-                                   <span class="material-icons">
-                                    star_outline
-                                </span>
-                            </button>
-                            <button *ngIf="characters[i].isLiked" (click)="like(characters[i])">
-                                <span class="material-icons">
-                                    star
-                                </span>
-                            </button>
+                </div>
+                <div class="card-inner">
+                    <div class="header">
+                        <a [routerLink]="['/character-details', character.id]" routerLinkActive="router-link-active">
+                            <h2>{{character.name | slice:0:15}}</h2>
+                        </a>
+                        <div class="row" id="text">
+                            <div>
+                                <button class="btn btn-secundary" *ngIf="!characters[i].isLiked && islogged" (click)="like(characters[i])"> 
+                                    <span class="material-icons">
+                                        star_outline
+                                    </span>
+                                </button>
+                                <button class="btn btn-secundary" *ngIf="characters[i].isLiked && islogged" (click)="like(characters[i])">
+                                    <span class="material-icons">
+                                        star
+                                    </span>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <h4 class="text-muted">{{character.gender}}</h4>
-                    <small class="text-muted">{{character.created | date}}</small>
+                        <h4 class="text-muted">{{character.gender}}</h4>
+                        <small class="text-muted">{{character.created | date}}</small>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div *ngIf="characters.length<=0" class="col-xs-12 col-sm-12 col-md-12 mt-5 container-notFound">
-        <p>No se encontraron resultados</p>
+        <div *ngIf="characters.length<=0" class="col-xs-12 col-sm-12 col-md-12 mt-5 container-notFound">
+            <p>No se encontraron resultados</p>
+        </div>
     </div>
 </div>

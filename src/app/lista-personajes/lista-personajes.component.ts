@@ -35,6 +35,7 @@ export class ListaPersonajesComponent implements OnInit {
   logged = false;
   role;
   available: boolean = false;
+  islogged: boolean;
   
   constructor(private characterService: PersonajesAPIService,
     private route: ActivatedRoute,
@@ -43,40 +44,42 @@ export class ListaPersonajesComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private db: AngularFireDatabase) {
 
-
+   
     // this.onUrlChanged();
 
-    this.user$.subscribe(async user => {
+    this.user$.subscribe(async (user) => {
       if (user) {
         this.user = user;
-
-
+        this.islogged = true;
+      
         await this.onUrlChanged();
 
-              
 
         for (let index = 0; index < this.characters.length; index++) {
+          // console.log('hola');
           const element = this.characters[index];
           // console.log(element);
-          if (await characterService.existe2(this.characters[index], user) == true) {
-            this.characters[index].isLiked=true;
-          // this.isLiked = true;
-        } else {
+          if ( await characterService.existe2(this.characters[index], user) == true) {
+            this.characters[index].isLiked = true;
+            // this.isLiked = true;
+          } else {
             this.characters[index].isLiked = false;
-          // this.isLiked = false;
-        }
+            // this.isLiked = false;
+          }
 
         }
-        
 
+
+      } else {
+        this.islogged = false;
       }
-
     })
   }
 
   
 
   async ngOnInit() {
+    
     // this.getDataFromService();
     this.getCharactersByQuery();
 
@@ -91,7 +94,7 @@ export class ListaPersonajesComponent implements OnInit {
           }
           this.role = role;
         })
-
+        
       }
     })
   }
@@ -164,7 +167,7 @@ export class ListaPersonajesComponent implements OnInit {
           this.characters = [];
         }
       });
-
+      
 
   }
 
@@ -183,6 +186,7 @@ export class ListaPersonajesComponent implements OnInit {
 
     if (character.isLiked) {
       this.addToWL(character);
+      this.characterService.create(character);
 
     } else {
       this.deleteToWL(character);
@@ -197,7 +201,7 @@ export class ListaPersonajesComponent implements OnInit {
   }
   
 
-  filterby(option:string){
+  async filterby(option:string){
     console.log(option)
     if (option == 'Female' || option === 'Male' || option === 'Genderless' || option ==='unknown'){
       this.characters = this.characters.filter(p => p.gender === option);
@@ -205,6 +209,19 @@ export class ListaPersonajesComponent implements OnInit {
       this.characters = this.characters.filter(p => p.status === option);
     }else{
       this.characters = this.characters.filter(p => p.species === option);
+    }
+    for (let index = 0; index < this.characters.length; index++) {
+      // console.log('hola');
+      const element = this.characters[index];
+      // console.log(element);
+      if (await this.characterService.existe2(this.characters[index], this.user) == true) {
+        this.characters[index].isLiked = true;
+        // this.isLiked = true;
+      } else {
+        this.characters[index].isLiked = false;
+        // this.isLiked = false;
+      }
+
     }
      
     

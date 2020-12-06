@@ -7,5 +7,6 @@ export interface Personaje {
     created: string;
     status: string;
     isLiked: boolean;
+    nLikes:number;
     key: null
 }

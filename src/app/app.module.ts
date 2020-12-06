@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CategoryContainerComponent } from './category-container/category-container.component';
+import { DetallesPersonajeComponent } from './detalles-personaje/detalles-personaje.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CategoryContainerComponent } from './category-container/category-contai
     NavbarComponent,
    PersonajesFavoritosComponent,
     ListaPersonajesComponent,
-    CategoryContainerComponent
+    CategoryContainerComponent,
+    DetallesPersonajeComponent
   ],
   imports: [
     BrowserModule,
