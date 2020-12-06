@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Personaje } from '../personaje';
-import { PersonajesAPIService } from '../personajes-api.service';
+import { PersonajesAPIService } from '../servicios/personajes-api.service';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
 

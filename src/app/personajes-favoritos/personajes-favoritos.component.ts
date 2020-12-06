@@ -2,11 +2,12 @@ import { DOCUMENT } from '@angular/common';
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { Personaje } from '../personaje';
-import { PersonajesAPIService } from '../personajes-api.service';
+import { PersonajesAPIService } from '../servicios/personajes-api.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import firebase from "firebase/app";
+import { FavoritosService } from '../servicios/favoritos.service';
 @Component({
   selector: 'app-personajes-favoritos',
   templateUrl: './personajes-favoritos.component.html',
@@ -40,6 +41,7 @@ export class PersonajesFavoritosComponent implements OnInit {
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
     private router: RouterModule,
+    private fvS:FavoritosService,
 
     @Inject(DOCUMENT) private document: Document) {
     this.user$.subscribe(user => {
@@ -49,7 +51,7 @@ export class PersonajesFavoritosComponent implements OnInit {
         this.booleano2 = res.exists();
         // console.log(this.booleano2);
 
-        this.CharacterService.getWishListUser(user).valueChanges().pipe(
+        this.fvS.getWishListUser(user).valueChanges().pipe(
           map(changes => changes.map(c => c))
         ).subscribe(c => {
           this.all_products = c
@@ -79,9 +81,9 @@ export class PersonajesFavoritosComponent implements OnInit {
   }
 
   delete_product(character: Personaje) {
-    this.CharacterService.deleteTWL(character, this.user);
+    this.fvS.deleteTWL(character, this.user);
 
-    this.CharacterService.getWishListUser(this.user).valueChanges().pipe(
+    this.fvS.getWishListUser(this.user).valueChanges().pipe(
       map(changes => changes.map(c => c))
     ).subscribe(c => {
       this.all_products = c
@@ -94,7 +96,7 @@ export class PersonajesFavoritosComponent implements OnInit {
   }
 
   deleteAllProducts() {
-    this.CharacterService.deleteAllWL(this.user);
+    this.fvS.deleteAllWL(this.user);
     window.location.reload();
   }
 
@@ -105,11 +107,11 @@ export class PersonajesFavoritosComponent implements OnInit {
 
 
   addToWL(character) {
-    this.CharacterService.addToWL(character, this.user);
+    this.fvS.addToWL(character, this.user);
   }
 
   deleteToWL(character) {
-    this.CharacterService.deleteTWL(character, this.user);
+    this.fvS.deleteTWL(character, this.user);
   }
 
 

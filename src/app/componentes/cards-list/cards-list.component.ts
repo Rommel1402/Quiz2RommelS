@@ -1,42 +1,31 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy,  Inject,  } from '@angular/core';
+import { ChangeDetectionStrategy,  Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PersonajesAPIService } from '../servicios/personajes-api.service';
-import {  ParamMap } from '@angular/router';
-import { Personaje } from '../personaje';
-import { take } from 'rxjs/operators';
+import { PersonajesAPIService } from '../../servicios/personajes-api.service';
+import { NavigationEnd, ParamMap } from '@angular/router';
+import { Personaje } from '../../personaje';
+import { filter, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from "firebase/app";
 import { AngularFireDatabase } from '@angular/fire/database';
-import { FavoritosService } from '../servicios/favoritos.service';
-import { environment } from 'src/environments/environment';
+import { HostListener } from '@angular/core';
+import { FavoritosService } from 'src/app/servicios/favoritos.service';
 import { HttpClient } from '@angular/common/http';
 
-
 @Component({
-  selector: 'app-category-container',
-  templateUrl: './category-container.component.html',
-  styleUrls: ['./category-container.component.scss']
+  selector: 'app-cards-list',
+  templateUrl: './cards-list.component.html',
+  styleUrls: ['./cards-list.component.scss']
 })
-export class CategoryContainerComponent implements OnInit {
+export class CardsListComponent implements OnInit {
   
-  
-  // constructor(private characterService: PersonajesAPIService,
-  //   private route: ActivatedRoute,
-  //   private router: Router,
-  //   private afAuth: AngularFireAuth,
-  //   @Inject(DOCUMENT) private document: Document,
-  //   private db: AngularFireDatabase,
-  //   private fvS: FavoritosService,
-  //   private http: HttpClient) {
-
-
-    showGoUpButton = false;
-  characters: Personaje[] = [];
+  @Input('characters') characters: Personaje[];
+  @Input('option') option;
+  isFilter: boolean;
+  showGoUpButton = false;
+  // characters: Personaje[] = [];
   info = {
     next: null,
   };
@@ -53,10 +42,7 @@ export class CategoryContainerComponent implements OnInit {
   role;
   available: boolean = false;
   islogged: boolean;
-  isFilter:boolean=false;
-  option: string;
-
-
+  
   constructor(private characterService: PersonajesAPIService,
     private route: ActivatedRoute,
     private router: Router,
@@ -67,7 +53,7 @@ export class CategoryContainerComponent implements OnInit {
     private http: HttpClient) {
 
 
-    this.onUrlChanged();
+    // this.onUrlChanged();
 
     this.user$.subscribe(async (user) => {
       if (user) {
@@ -81,7 +67,7 @@ export class CategoryContainerComponent implements OnInit {
           // console.log('hola');
           const element = this.characters[index];
           // console.log(element);
-          if ( await fvS.existe2(this.characters[index], user) == true) {
+          if (await fvS.existe2(this.characters[index], user) == true) {
             this.characters[index].isLiked = true;
             // this.isLiked = true;
           } else {
@@ -127,7 +113,7 @@ export class CategoryContainerComponent implements OnInit {
         async () => {
           this.characters = [];
           this.pageNum = 1;
-          await this.getCharactersByQuery();
+          // await this.getCharactersByQuery();
         }
       )
 
@@ -151,32 +137,72 @@ export class CategoryContainerComponent implements OnInit {
 
   }
 
-
-
-  // onScrollDown(): void {
-  //   if (this.info.next) {
-  //     this.pageNum++;
-  //     this.getDataFromService();
-  //   }
-  // }
-  async onScrollDown2(option: string) {
+  otherPage(){
     if (this.info.next) {
-      this.pageNum++;
-      // console.log(option);
-      this.characters = [];
-      this.getDataFromServicePage();
-      // this.filterby(option);
-   }
+      // this.pageNum++;
+      // this.characters=[];
+      this.onScrollDown2(this.option);
+      this.getDataFromService();
 
-}
-
+    }
+  }
   // onScrollTop(): void {
   //   this.document.body.scrollTop = 0;
   //   this.document.documentElement.scrollTop = 0;
   // }
+  // onScrollDown(): void {
+  //   if (this.info.next) {
+  //     this.pageNum++;
+  //     this.getDataFromService();
+      
+  //   }
+  // }
+
+  
+  
+  async onScrollDown2(option: string){
+    if (this.info.next) {
+      this.pageNum++;
+      // console.log(option);
+      this.characters = [];
+      option = option.toLowerCase().toString();
+      // console.log(option);
+      // const filter = `https://rickandmortyapi.com/api/character/?status=alive`;
+      // console.log('aquiii===>',filter)
+      // const filter = `https://rickandmortyapi.com/api/character/?name=rick&status=alive`;
+      let filter = 'https://rickandmortyapi.com/api/character/?gender=' + option;
+
+      if (option === "female" || option === "male" || option === "genderless" || option === "unknown") {
+        console.log('1')
+        filter = 'https://rickandmortyapi.com/api/character/?gender=' + option;
+      } else if (option === 'alive' || option === 'dead' || option === 'unknown') {
+        filter = 'https://rickandmortyapi.com/api/character/?status=' + option;
+        console.log('2')
+      } else {
+        console.log('3')
+        filter = 'https://rickandmortyapi.com/api/character/?species=' + option;
+      }
+      return await this.http.get<Personaje[]>(filter).pipe(take(1))
+        .subscribe((res: any) => {
+          if (res?.results?.length) {
+            console.log('Respuesta==>', res);
+            const { info, results } = res;
+            this.characters = [... this.characters, ...results]
+            this.info = info;
+
+          } else {
+            this.characters = [];
+          }
+        });
+
+    }
+
+
+
+  }
+
 
   private async getCharactersByQuery(): Promise<void> {
-    this.isFilter=false;
     this.characters = [];
     await this.route.queryParams.pipe(
       take(1)).subscribe(async (params: ParamMap) => {
@@ -204,32 +230,6 @@ export class CategoryContainerComponent implements OnInit {
 
 
   }
-  private async getDataFromServicePage(): Promise<void> {
-
-    await (await this.characterService.searchCharacters(this.query, this.pageNum)).pipe(take(1))
-      .subscribe((res: any) => {
-        if (res?.results?.length) {
-          console.log('Response==>', res);
-          const { info, results } = res;
-          this.characters = [... this.characters, ...results]
-          this.info = info;
-
-        } else {
-          this.characters = [];
-        }
-      });
-
-
-  }
-//   otherPage(){
-//     if (this.info.next) {
-//       // this.pageNum++;
-//       // this.characters=[];
-//       this.onScrollDown2(this.option);
-//       this.getDataFromService();
-
-//   }
-// }
 
   addToWL(product) {
     this.fvS.addToWL(product, this.user);
@@ -261,47 +261,8 @@ export class CategoryContainerComponent implements OnInit {
   }
 
 
-  async filterby(option:string){
-    this.isFilter=true;
-    this.option=option;
-    console.log(option);
-    this.characters=[];
-    option=option.toLowerCase().toString();
-    console.log(option);
-    // const filter = `https://rickandmortyapi.com/api/character/?status=alive`;
-    // console.log('aquiii===>',filter)
-    // const filter = `https://rickandmortyapi.com/api/character/?name=rick&status=alive`;
-    let filter = 'https://rickandmortyapi.com/api/character/?gender='+option;
-
-    if (option === "female" || option === "male" || option === "genderless" || option ==="unknown"){
-      // console.log('1')
-      filter = 'https://rickandmortyapi.com/api/character/?gender='+option;
-    } else if (option === 'alive' || option === 'dead' || option==='unknown'){
-      filter = 'https://rickandmortyapi.com/api/character/?status='+option;
-      // console.log('2')
-    }else{
-      // console.log('3')
-      filter = 'https://rickandmortyapi.com/api/character/?species='+option;
-    }
-
-    this.onScrollDown2(option);
-
-    return await this.http.get<Personaje[]>(filter).pipe(take(1))
-      .subscribe((res: any) => {
-        if (res?.results?.length) {
-          console.log('Respuesta==>', res);
-          const { info, results } = res;
-          this.characters = [... this.characters, ...results]
-          this.info = info;
-
-        } else {
-          this.characters = [];
-        }
-      });
-   
 
 
 
-  }
-      
+
 }
