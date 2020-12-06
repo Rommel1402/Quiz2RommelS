@@ -112,6 +112,8 @@ favorites:boolean;
 
       } else {
         this.islogged = false;
+        // await this.onUrlChanged();
+        // this.getCharactersByQuery();
       }
     })
   }

@@ -80,6 +80,7 @@ export class CardsListComponent implements OnInit {
 
       } else {
         this.islogged = false;
+        
       }
     })
   }

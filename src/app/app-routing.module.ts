@@ -7,13 +7,14 @@ import { DetallesPersonajeComponent } from './detalles-personaje/detalles-person
 
 import {AuthGuard} from '../app/servicios/guards/auth.guard';
 import { CardsListComponent } from './componentes/cards-list/cards-list.component';
+import { CategoryContainerComponent } from './category-container/category-container.component';
 
 const routes: Routes = [
   {
     path: '', component: ListaPersonajesComponent 
   },
   {
-    path: 'characters-list', component: ListaPersonajesComponent
+    path: 'characters-list', component: ListaPersonajesComponent 
   },
   {
     path: ':pageNum', component: ListaPersonajesComponent

@@ -46,7 +46,6 @@ export class PersonajesFavoritosComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document) {
     // window.location.reload();
       this.characters=[];
-      console.log('ROMMEL')
     this.user$.subscribe(user => {
       this.user = user;
       let ref = firebase.database().ref("/users/" + user.uid + "/favoritos/");
