@@ -122,58 +122,58 @@ export class PersonajesFavoritosComponent implements OnInit {
     }
   }
 
-  // onScrollDown(): void {
-  //   if (this.info.next) {
-  //     this.pageNum++;
-  //     this.getDataFromService();
-  //   }
-  // }
+  onScrollDown(): void {
+    if (this.info.next) {
+      // this.pageNum++;
+      // this.getDataFromService();
+    }
+  }
 
-  // onScrollTop(): void {
-  //   this.document.body.scrollTop = 0;
-  //   this.document.documentElement.scrollTop = 0;
-  // }
-  // private getCharactersByQuery(): void {
-  //   this.route.queryParams.pipe(
-  //     take(1)).subscribe((params: ParamMap) => {
-  //       console.log('Params', params);
-  //       this.query = params['q'];
-  //       this.getDataFromService();
-  //     });
+  onScrollTop(): void {
+    this.document.body.scrollTop = 0;
+    this.document.documentElement.scrollTop = 0;
+  }
+  private getCharactersByQuery(): void {
+    this.route.queryParams.pipe(
+      take(1)).subscribe((params: ParamMap) => {
+        console.log('Params', params);
+        this.query = params['q'];
+        this.getDataFromService();
+      });
 
-  // }
+  }
 
-  // private async getDataFromService(): Promise<void> {
+  private async getDataFromService(): Promise<void> {
 
-  //   (await this.characterService.searchCharacters(this.query, this.pageNum)).pipe(take(1))
-  //     .subscribe((res: any) => {
-  //       if (res?.results?.length) {
-  //         console.log('Response==>', res);
-  //         const { info, results } = res;
-  //         this.characters = [... this.characters, ...results]
-  //         this.info = info;
-  //       } else {
-  //         this.characters = [];
-  //       }
-  //     });
+    (await this.characterService.searchCharacters(this.query, this.pageNum)).pipe(take(1))
+      .subscribe((res: any) => {
+        if (res?.results?.length) {
+          console.log('Response==>', res);
+          const { info, results } = res;
+          this.characters = [... this.characters, ...results]
+          this.info = info;
+        } else {
+          this.characters = [];
+        }
+      });
 
 
-  // }
+  }
 
-  // @HostListener('window:scroll', [])
+  @HostListener('window:scroll', [])
 
-  // onWindowScroll(): void {
-  //   const yOffSet = window.pageYOffset;
+  onWindowScroll(): void {
+    const yOffSet = window.pageYOffset;
 
-  //   if ((yOffSet || this.document.documentElement.scrollTop || this.document.body.scrollTop) > this.showScrollHeight) {
+    if ((yOffSet || this.document.documentElement.scrollTop || this.document.body.scrollTop) > this.showScrollHeight) {
 
-  //     this.showGoUpButton = true;
+      this.showGoUpButton = true;
 
-  //   } else if (this.showGoUpButton && (yOffSet || this.document.documentElement.scrollTop || this.document.body.scrollTop) < this.hideScrollHeight) {
+    } else if (this.showGoUpButton && (yOffSet || this.document.documentElement.scrollTop || this.document.body.scrollTop) < this.hideScrollHeight) {
 
-  //     this.showGoUpButton = false;
+      this.showGoUpButton = false;
 
-  //   }
+    }
 
-  // }
+  }
 }

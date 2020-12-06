@@ -53,7 +53,7 @@ export class CardsListComponent implements OnInit {
     private http: HttpClient) {
 
 
-    // this.onUrlChanged();
+    this.onUrlChanged();
 
     this.user$.subscribe(async (user) => {
       if (user) {

@@ -25,14 +25,6 @@ import { HttpClient } from '@angular/common/http';
 export class CategoryContainerComponent implements OnInit {
   
   
-  // constructor(private characterService: PersonajesAPIService,
-  //   private route: ActivatedRoute,
-  //   private router: Router,
-  //   private afAuth: AngularFireAuth,
-  //   @Inject(DOCUMENT) private document: Document,
-  //   private db: AngularFireDatabase,
-  //   private fvS: FavoritosService,
-  //   private http: HttpClient) {
 
 
     showGoUpButton = false;
@@ -153,12 +145,12 @@ export class CategoryContainerComponent implements OnInit {
 
 
 
-  // onScrollDown(): void {
-  //   if (this.info.next) {
-  //     this.pageNum++;
-  //     this.getDataFromService();
-  //   }
-  // }
+  onScrollDown(): void {
+    if (this.info.next) {
+      this.pageNum++;
+      this.getDataFromService();
+    }
+  }
   async onScrollDown2(option: string) {
     if (this.info.next) {
       this.pageNum++;
@@ -170,10 +162,10 @@ export class CategoryContainerComponent implements OnInit {
 
 }
 
-  // onScrollTop(): void {
-  //   this.document.body.scrollTop = 0;
-  //   this.document.documentElement.scrollTop = 0;
-  // }
+  onScrollTop(): void {
+    this.document.body.scrollTop = 0;
+    this.document.documentElement.scrollTop = 0;
+  }
 
   private async getCharactersByQuery(): Promise<void> {
     this.isFilter=false;
