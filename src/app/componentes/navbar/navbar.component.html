@@ -8,17 +8,17 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" routerLink="/characters-list" routerLinkActive="router-link-active">Home <span
+                    <a class="nav-link" routerLink="/" routerLinkActive="router-link-active">Home <span
                             class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" routerLink="/favoritos" routerLinkActive="router-link-active">Favoritos <span
+                <li *ngIf="isLogged==true" class="nav-item active">
+                    <a class="nav-link" routerLink="/favorite-list" routerLinkActive="router-link-active">Favoritos <span
                             class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active" *ngIf="!islogged">
+                <li class="nav-item active" *ngIf="!isLogged">
                     <a class="nav-link text-danger" (click)='login()'>Login</a>
                 </li>
-                <li class="nav-item active" *ngIf="islogged">
+                <li class="nav-item active" *ngIf="isLogged">
                     <a class="nav-link text-danger" (click)='logout()'>LogOut</a>
                 </li>
             </ul>

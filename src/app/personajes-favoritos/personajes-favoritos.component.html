@@ -1,9 +1,8 @@
-<p>personajes-favoritos works!</p>
 
 
 <div class="container">
     <div infinite-scroll (scrolled)="onScrollDown()" class="row">
-        <div *ngFor="let character of all_products" class="col-xs-12 col-sm-6 col-md-4">
+        <div *ngFor="let character of characters" class="col-xs-12 col-sm-6 col-md-4">
 
             <div class="card">
 
@@ -41,7 +40,7 @@
             </div>
         </div>
 
-        <div *ngIf="all_products.length<=0" class="col-xs-12 col-sm-12 col-md-12 mt-5 container-notFound">
+        <div *ngIf="characters.length<=0" class="col-xs-12 col-sm-12 col-md-12 mt-5 container-notFound">
             <p>No tienes personajes agregados en favoritos</p>
 
         </div>

@@ -4,12 +4,23 @@ import { from } from 'rxjs';
 import { ListaPersonajesComponent } from './lista-personajes/lista-personajes.component';
 import { PersonajesFavoritosComponent} from '../app/personajes-favoritos/personajes-favoritos.component';
 import { DetallesPersonajeComponent } from './detalles-personaje/detalles-personaje.component';
+
+import {AuthGuard} from '../app/servicios/guards/auth.guard';
+import { CardsListComponent } from './componentes/cards-list/cards-list.component';
+
 const routes: Routes = [
   {
-    path: 'characters-list', component: ListaPersonajesComponent 
+    path: '', component: ListaPersonajesComponent 
   },
   {
-    path: 'favoritos', component: PersonajesFavoritosComponent
+    path: 'characters-list', component: CardsListComponent
+  },
+  {
+    path: ':pageNum', component: ListaPersonajesComponent
+  },
+
+  {
+    path: 'favorite-list', component: PersonajesFavoritosComponent, canActivate:[AuthGuard]
   },
   { path: 'character-details/:id', component: DetallesPersonajeComponent },
 

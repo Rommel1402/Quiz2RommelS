@@ -15,6 +15,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CategoryContainerComponent } from './category-container/category-container.component';
 import { DetallesPersonajeComponent } from './detalles-personaje/detalles-personaje.component';
+import { CharacterCardComponent } from './componentes/character-card/character-card.component';
+import { CardsListComponent } from './componentes/cards-list/cards-list.component';
+import {AuthGuard} from './servicios/guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { DetallesPersonajeComponent } from './detalles-personaje/detalles-person
    PersonajesFavoritosComponent,
     ListaPersonajesComponent,
     CategoryContainerComponent,
-    DetallesPersonajeComponent
+    DetallesPersonajeComponent,
+    CharacterCardComponent,
+    CardsListComponent,
+    
   ],
   imports: [
     BrowserModule,
