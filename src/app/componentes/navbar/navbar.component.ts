@@ -4,7 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import firebase from "firebase/app";
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AuthService } from 'src/app/servicios/auth.service';
+import { AuthService } from '../../../app/servicios/auth.service';
+
+
+
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',

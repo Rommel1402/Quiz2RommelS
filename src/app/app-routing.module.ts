@@ -20,7 +20,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'favoritos', component: PersonajesFavoritosComponent, canActivate:[AuthGuard]
+    path: 'favorite-list', component: PersonajesFavoritosComponent, canActivate:[AuthGuard]
   },
   { path: 'character-details/:id', component: DetallesPersonajeComponent },
 
